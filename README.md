@@ -1,3 +1,95 @@
+# 社員管理システム
+
+Laravel 12、Vue.js、Tailwind CSSを使用した社員管理システムです。
+
+## 開発環境
+
+- PHP 8.2以上
+- Node.js 18以上
+- Composer 2.x
+- MySQL 8.0
+
+## セットアップ
+
+```bash
+# リポジトリのクローン
+git clone https://github.com/HirokiMtmt/prctc_mngEnpL12TcVj.git
+cd prctc_mngEnpL12TcVj
+
+# 依存関係のインストール
+composer install
+npm install
+
+# 環境設定
+cp .env.example .env
+php artisan key:generate
+
+# データベースのマイグレーション
+php artisan migrate
+
+# 開発サーバーの起動
+php artisan serve     # Laravel サーバー
+npm run dev          # Vite 開発サーバー
+```
+
+## ブランチ戦略
+
+このプロジェクトでは以下のブランチ戦略を採用しています：
+
+### メインブランチ
+
+- `master`: 本番環境用のメインブランチ
+  - 直接コミットは禁止
+  - developブランチからのマージのみ許可
+- `develop`: 開発用のメインブランチ
+  - 直接コミットは禁止
+  - feature、hotfixブランチからのマージのみ許可
+
+### 作業用ブランチ
+
+- `feature/*`: 新機能開発用
+  - 例: `feature/add-user-authentication`
+  - developブランチから分岐
+  - 完了後はdevelopブランチにマージ
+- `hotfix/*`: バグ修正用
+  - 例: `hotfix/fix-login-error`
+  - developブランチから分岐
+  - 完了後はdevelopブランチにマージ
+
+## コミットメッセージのルール
+
+以下のプレフィックスを使用してコミットの種類を明確にします：
+
+- `feat:` 新機能の追加
+- `fix:` バグ修正
+- `docs:` ドキュメントのみの変更
+- `style:` コードの意味に影響を与えない変更（空白、フォーマット、セミコロンの追加など）
+- `refactor:` バグ修正や機能追加ではないコードの変更
+- `test:` テストの追加・修正
+- `chore:` ビルドプロセスやツールの変更、ライブラリの更新など
+
+例：
+```
+feat: ユーザー認証機能の追加
+fix: ログインフォームのバリデーションエラーを修正
+docs: READMEのセットアップ手順を更新
+```
+
+## プルリクエストのルール
+
+1. レビュー必須
+2. 以下のテンプレートに従って記述
+   - 変更内容の概要
+   - 変更理由
+   - 確認項目
+   - 関連するIssue
+
+## コーディング規約
+
+- PSR-12に準拠
+- ESLintの設定に従う
+- Prettier/PHP-CSによるコードフォーマット必須
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
