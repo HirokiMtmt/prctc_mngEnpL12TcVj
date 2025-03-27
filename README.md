@@ -5,9 +5,9 @@ Laravel 12、Vue.js、Tailwind CSSを使用した社員管理システムです�
 ## 開発環境
 
 - PHP 8.2以上
-- Node.js 18以上
+- Node.js 18以上（Node.js 20、21も対応）
 - Composer 2.x
-- MySQL 8.0
+- SQLite（デフォルト設定）または MySQL 8.0
 
 ## セットアップ
 
@@ -24,13 +24,36 @@ npm install
 cp .env.example .env
 php artisan key:generate
 
-# データベースのマイグレーション
+# データベースのセットアップ
+# SQLiteを使用する場合（デフォルト）
+touch database/database.sqlite
 php artisan migrate
+php artisan db:seed # テストデータを追加する場合
+
+# MySQLを使用する場合は.envファイルを編集
+# DB_CONNECTION=mysql
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# DB_DATABASE=employee_management
+# DB_USERNAME=root
+# DB_PASSWORD=your_password
 
 # 開発サーバーの起動
 php artisan serve     # Laravel サーバー
 npm run dev          # Vite 開発サーバー
 ```
+
+## 機能
+
+- 社員データの一覧表示
+- 社員データの追加・編集・削除（CRUD操作）
+- CSVファイルからの社員データ一括インポート（ドラッグ＆ドロップ対応）
+
+## アクセス方法
+
+アプリケーションが起動したら、ブラウザで以下のURLにアクセスしてください：
+- 社員一覧ページ: http://localhost:8000/employees
+- API（JSON形式）: http://localhost:8000/api/employees
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
