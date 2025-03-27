@@ -19,5 +19,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // 社員データのシーディング
+        $this->call(EmployeeSeeder::class);
     }
 }
