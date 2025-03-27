@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
 {
@@ -117,5 +118,77 @@ class EmployeeController extends Controller
         $employee->delete();
         
         return response()->json(null, 204);
+    }
+    
+    /**
+     * CSVからの一括インポート
+     */
+    public function import(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'employees' => 'required|array',
+                'employees.*.name' => 'required|string|max:255',
+                'employees.*.email' => 'required|email',
+                'employees.*.department' => 'required|string|max:100',
+                'employees.*.position' => 'required|string|max:100',
+                'employees.*.hired_date' => 'nullable|date',
+                'employees.*.address' => 'nullable|string',
+                'employees.*.phone' => 'nullable|string|max:20',
+            ]);
+            
+            if ($validator->fails()) {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'データ形式が不正です',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+            
+            $employees = $request->employees;
+            $imported = 0;
+            $errors = [];
+            
+            foreach ($employees as $index => $employeeData) {
+                try {
+                    // メールアドレスの重複チェック
+                    $existingEmployee = Employee::where('email', $employeeData['email'])->first();
+                    
+                    if ($existingEmployee) {
+                        // 既存データの更新
+                        $existingEmployee->update($employeeData);
+                        $imported++;
+                    } else {
+                        // 新規データの作成
+                        Employee::create($employeeData);
+                        $imported++;
+                    }
+                } catch (\Exception $e) {
+                    $errors[] = [
+                        'row' => $index + 1,
+                        'message' => $e->getMessage(),
+                        'data' => $employeeData
+                    ];
+                }
+            }
+            
+            $result = [
+                'success' => true,
+                'imported' => $imported,
+                'total' => count($employees)
+            ];
+            
+            if (count($errors) > 0) {
+                $result['errors'] = $errors;
+                $result['error_count'] = count($errors);
+            }
+            
+            return response()->json($result);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => 'インポート処理に失敗しました: ' . $e->getMessage()
+            ], 500);
+        }
     }
 } 

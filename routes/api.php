@@ -24,6 +24,9 @@ Route::get('test', function () {
     return response()->json(['message' => 'API is working!']);
 });
 
+// CSVインポート用のエンドポイント
+Route::post('employees/import', [EmployeeController::class, 'import']);
+
 // 社員情報のAPIルート - コントローラーを使用
 Route::apiResource('employees', EmployeeController::class);
 

@@ -1,5 +1,8 @@
 <template>
   <div class="mt-6">
+    <!-- CSVアップローダーを追加 -->
+    <CsvUploader @imported="fetchEmployees" />
+
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-semibold">社員一覧</h2>
       <button 
@@ -95,11 +98,13 @@
 
 <script>
 import EmployeeForm from './EmployeeForm.vue';
+import CsvUploader from './CsvUploader.vue';
 
 export default {
   name: 'EmployeeList',
   components: {
-    EmployeeForm
+    EmployeeForm,
+    CsvUploader
   },
   data() {
     return {
