@@ -1,6 +1,6 @@
-# 社員管理システム
+# おべんきょう（社員管理システム構築）
 
-Laravel 12、Vue.js、Tailwind CSSを使用した社員管理システムです。
+Laravel 12、Vue.js、Tailwind CSSを使用したおべんきょう（社員管理システム構築）です。
 
 ## 開発環境
 
